@@ -124,7 +124,7 @@
 		tryTime: 10
 	};
 	// 设置数字最大长度
-	generater.__proto__.setMaxLen = function (max){
+	generater.setMaxLen = function (max){
 		if (max < 1) {
 			console.error("最大长度不得小于1！");
 			return;
@@ -132,7 +132,7 @@
 		this.maxLen = max;
 	}
 	// 设置数字最小长度
-	generater.__proto__.setMinLen = function (min){
+	generater.setMinLen = function (min){
 		if (min < 1) {
 			console.error("最小长度不得小于1！");
 			return;
@@ -140,7 +140,7 @@
 		this.minLen = min;
 	}
 	// 设置个数
-	generater.__proto__.setNum = function (num) {
+	generater.setNum = function (num) {
 		if (num < 2) {
 			console.error("最小位数不得小于2位！");
 			return;
@@ -148,16 +148,16 @@
 		this.num = num;
 	}
 	// 是否带括号
-	generater.__proto__.setBracket = function (bool){
+	generater.setBracket = function (bool){
 		this.needBracket = !!bool;
 	}
-	generater.__proto__.setJinwei = function (bool) {
+	generater.setJinwei = function (bool) {
 		this.jinwei = !!bool;
 	}
-	generater.__proto__.setTuiwei = function (bool) {
+	generater.setTuiwei = function (bool) {
 		this.tuiwei = !!bool;
 	}
-	generater.__proto__.setSymbol = function (symbol) {
+	generater.setSymbol = function (symbol) {
 		var bit = parseInt(1111, 2);
 		if (symbol | bit == bit) {
 			this.symbol = symbol;
@@ -169,7 +169,7 @@
 	/** 
 	 * @return node
 	 */
-	generater.__proto__.make = function (){
+	generater.make = function (){
 		var func = [];
 		if ((this.symbol & 1) == 1) {
 			func.push(this.getPlus.bind(this))
@@ -190,7 +190,7 @@
 		return this.do(func);
 	}
 
-	generater.__proto__.do = function (func) {
+	generater.do = function (func) {
 		var num = this.getNumber(this.maxLen, this.minLen);
 		// 加法
 		var node = this.transToNode(num);
@@ -209,13 +209,13 @@
 	}
 
 	// 将一个数字转换成Node类
-	generater.__proto__.transToNode = function (num){
+	generater.transToNode = function (num){
 		var node = new Node();
 		node.push(num).done();
 		return node;
 	}
 	// 得到一个加法的式子
-	generater.__proto__.getPlus = function (node) {
+	generater.getPlus = function (node) {
 		if (node instanceof Node) {
 			// 如果是Nodedui'xiang
 			// 不允许进位
@@ -238,7 +238,7 @@
 	 * 减法
 	 * 不能生成负数
 	 */
-	generater.__proto__.getMinus = function (node) {
+	generater.getMinus = function (node) {
 		if (node instanceof Node) {
 			// 如果是Nodedui'xiang
 			// 不允许进位
@@ -262,7 +262,7 @@
 		}
 	}
 	// 乘法
-	generater.__proto__.getMultiply = function (node) {
+	generater.getMultiply = function (node) {
 		if (node instanceof Node) {
 			// 如果是Nodedui'xiang
 			// 不允许进位
@@ -276,7 +276,7 @@
 		}
 	}
 	// 除法
-	generater.__proto__.getDivide = function (node) {
+	generater.getDivide = function (node) {
 		if (node instanceof Node) {
 			// 如果是Nodedui'xiang
 			// 不允许进位
@@ -291,7 +291,7 @@
 		}
 	}
 
-	generater.__proto__.makeUpperNumber = function (num) {
+	generater.makeUpperNumber = function (num) {
 		var arg = num.toString().split("");
 		var val = '';
 		for (var i=0;i<arg.length;i++) {
@@ -299,7 +299,7 @@
 		}
 		return +val;
 	}
-	generater.__proto__.makeLowEqualNumber = function (num) {
+	generater.makeLowEqualNumber = function (num) {
 		var arg = num.toString().split("");
 		var val = '';
 		for (var i=0;i<arg.length;i++) {
@@ -311,13 +311,8 @@
 		return +val;
 	}
 	// 得到一个数
-	generater.__proto__.getNumber = function (max, min){
-		return Math.floor(
-				(Math.random() 
-					* (Math.pow(10, (max - min + 1))-Math.pow(10, min-1))
-					+ Math.pow(10, min-1)
-				) * Math.pow(10, min - 1)
-				) / Math.pow(10, min - 1) * Math.pow(10, min -1);
+	generater.getNumber = function (max, min){
+		return Math.floor(Math.random() * (Math.pow(10, max) - Math.pow(10, min-1))) + Math.pow(10, min-1);
 	}
 	global.$Z_KS = generater;
 })(window);
